@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.inventory.entity.Product;
+import com.example.inventory.form.ProductForm;
 import com.example.inventory.repository.ProductRepository;
 
 @Service
@@ -20,5 +21,15 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         return repository.findAll();
+    }
+
+    @Transactional
+    public void save(ProductForm form) {
+        Product product = new Product();
+
+        product.setProductName(form.getProductName());
+        product.setPrice(form.getPrice());
+
+        repository.save(product);
     }
 }

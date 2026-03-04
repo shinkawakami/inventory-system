@@ -2,10 +2,16 @@ package com.example.inventory.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.inventory.form.ProductForm;
 import com.example.inventory.service.ProductService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/product")
@@ -21,5 +27,23 @@ public class ProductController {
     public String list(Model model) {
         model.addAttribute("products", service.findAll());
         return "product/list";
+    }
+
+    @GetMapping("/regist")
+    public String registForm(Model model) {
+        model.addAttribute("productForm", new ProductForm());
+        return "product/regist";
+    }
+
+    @PostMapping("/regist")
+    public String regist(@ModelAttribute("productForm") @Valid ProductForm form,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "product/regist";
+        }
+
+        service.save(form);
+        return "redirect:/product/list";
     }
 }
