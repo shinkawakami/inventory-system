@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品登録</title>
+</head>
+<body>
+
+<h1>商品登録</h1>
+
+<form th:action="@{/product/regist}" th:object="${productForm}" method="post">
+
+  <div>
+    <div>商品名</div>
+    <input type="text" th:field="*{productName}">
+    <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
+  </div>
+
+  <br>
+
+  <div>
+    <div>価格</div>
+    <input type="number" th:field="*{price}">
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+  </div>
+
+  <br>
+
+  <button type="submit">登録</button>
+
+</form>
+
+</body>
+</html>
