@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
+import com.example.inventory.constant.AccessRule;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpFilter;
@@ -20,24 +22,18 @@ public class LoginCheckFilter extends HttpFilter {
                             FilterChain chain)
             throws IOException, ServletException {
 
-        String contextPath = request.getContextPath();
         String requestURI = request.getRequestURI();
         HttpSession session = request.getSession(false);
 
-        boolean isLoginPage = requestURI.startsWith(contextPath + "/login");
-        boolean isStatic = requestURI.startsWith(contextPath + "/css/")
-                || requestURI.startsWith(contextPath + "/js/")
-                || requestURI.startsWith(contextPath + "/images/");
-
         boolean isLoggedIn = session != null && session.getAttribute("loginUserId") != null;
 
-        if (isLoginPage || isStatic) {
+        if (AccessRule.isPublicPath(requestURI)) {
             chain.doFilter(request, response);
             return;
         }
 
         if (!isLoggedIn) {
-            response.sendRedirect(contextPath + "/login");
+            response.sendRedirect("/login");
             return;
         }
 

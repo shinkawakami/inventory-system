@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
+import com.example.inventory.constant.AccessRule;
 import com.example.inventory.constant.Role;
 
 import jakarta.servlet.FilterChain;
@@ -22,8 +23,6 @@ public class RoleCheckFilter extends HttpFilter {
                             FilterChain chain)
             throws IOException, ServletException {
 
-        String contextPath = request.getContextPath();
-        String requestURI = request.getRequestURI();
         HttpSession session = request.getSession(false);
 
         if (session == null) {
@@ -31,20 +30,11 @@ public class RoleCheckFilter extends HttpFilter {
             return;
         }
 
+        String requestURI = request.getRequestURI();
         Role role = (Role) session.getAttribute("loginUserRole");
 
-        boolean isProductManage = requestURI.startsWith(contextPath + "/product/regist")
-                || requestURI.startsWith(contextPath + "/product/edit")
-                || requestURI.startsWith(contextPath + "/product/delete");
-
-        boolean isWarehouseManage = requestURI.startsWith(contextPath + "/warehouse/regist");
-
-        boolean isStockManage = requestURI.startsWith(contextPath + "/stock/regist")
-            || requestURI.startsWith(contextPath + "/stock/edit")
-            || requestURI.startsWith(contextPath + "/stock/delete");
-
-        if (Role.STAFF.equals(role) && (isProductManage || isWarehouseManage || isStockManage)) {
-            response.sendRedirect(contextPath + "/menu");
+        if (Role.STAFF.equals(role) && AccessRule.isAdminOnlyPath(requestURI)) {
+            response.sendRedirect("/menu");
             return;
         }
 
