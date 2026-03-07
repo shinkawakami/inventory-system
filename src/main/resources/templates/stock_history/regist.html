@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>入出庫登録</title>
+</head>
+<body>
+    <h1>入出庫登録</h1>
+
+    <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/stock-history/regist}" th:object="${stockHistoryForm}" method="post">
+
+        <div>
+            <div>対象在庫</div>
+            <select th:field="*{stockId}">
+                <option value="">-- 選択してください --</option>
+                <option th:each="s : ${stocks}"
+                        th:value="${s.stockId}"
+                        th:text="${s.product.productName + ' / ' + s.warehouse.warehouseName + ' / 現在庫:' + s.quantity}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('stockId')}" th:errors="*{stockId}"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <div>種別</div>
+            <select th:field="*{historyType}">
+                <option value="">-- 選択してください --</option>
+                <option value="IN">入庫</option>
+                <option value="OUT">出庫</option>
+                <option value="ADJUST">棚卸調整</option>
+            </select>
+            <div th:if="${#fields.hasErrors('historyType')}" th:errors="*{historyType}"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <div>数量</div>
+            <input type="number" th:field="*{quantity}">
+            <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <div>備考</div>
+            <input type="text" th:field="*{note}">
+            <div th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
+        </div>
+
+        <br>
+
+        <button type="submit">登録</button>
+    </form>
+
+    <div>
+        <a th:href="@{/stock-history/list}">履歴一覧へ</a>
+    </div>
+</body>
+</html>

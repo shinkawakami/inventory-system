@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>入出庫履歴一覧</title>
+</head>
+<body>
+    <h1>入出庫履歴一覧</h1>
+
+    <div>
+        <a th:href="@{/stock-history/regist}">入出庫登録</a>
+    </div>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>商品名</th>
+            <th>倉庫名</th>
+            <th>種別</th>
+            <th>数量</th>
+            <th>備考</th>
+            <th>日時</th>
+        </tr>
+        <tr th:each="h : ${histories}">
+            <td th:text="${h.historyId}"></td>
+            <td th:text="${h.stock.product.productName}"></td>
+            <td th:text="${h.stock.warehouse.warehouseName}"></td>
+            <td th:text="${h.historyType}"></td>
+            <td th:text="${h.quantity}"></td>
+            <td th:text="${h.note}"></td>
+            <td th:text="${h.createdAt}"></td>
+        </tr>
+    </table>
+</body>
+</html>
