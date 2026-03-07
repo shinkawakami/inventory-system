@@ -43,4 +43,9 @@ public class ProductService {
         product.setPrice(form.getPrice());
         repository.save(product);
     }
+
+    @Transactional
+    public void delete(Integer productId) {
+        repository.deleteById(productId);
+    }
 }

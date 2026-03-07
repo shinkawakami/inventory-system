@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.inventory.entity.Product;
 
@@ -68,6 +69,12 @@ public class ProductController {
             return "product/edit";
         }
         service.update(form);
+        return "redirect:/product/list";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam("productId") Integer productId) {
+        service.delete(productId);
         return "redirect:/product/list";
     }
 }

@@ -27,6 +27,11 @@
       <td th:text="${p.createdAt}"></td>
       <td>
         <a th:href="@{/product/edit/{id}(id=${p.productId})}">編集</a>
+        <form th:action="@{/product/delete}" method="post" style="display:inline;"
+            onsubmit="return confirm('削除しますか？');">
+          <input type="hidden" name="productId" th:value="${p.productId}">
+          <button type="submit">削除</button>
+        </form>
       </td>
     </tr>
   </table>
