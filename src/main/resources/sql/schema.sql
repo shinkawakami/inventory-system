@@ -67,5 +67,5 @@ CREATE TABLE users (
 
 INSERT INTO users (login_id, password, user_name, role)
 VALUES
-('admin', 'admin123', '管理者ユーザー', 'ADMIN'),
-('staff', 'staff123', '在庫担当ユーザー', 'STAFF');
+('admin', '$2a$10$1a5E/3FQBz9KY1rbSZLUKe1v3.73RH29X1/n6TNPnRK5HaRi1QGwC', '管理者ユーザー', 'ADMIN'),
+('staff', '$2a$10$VC4llQWOkF5xYMa66kgLi.j.6w3.cEcTJXNP4VcMKHOSVUtUhzqLO', '在庫担当ユーザー', 'STAFF');
