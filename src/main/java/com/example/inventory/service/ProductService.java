@@ -20,7 +20,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<Product> findAll() {
-        return repository.findAll();
+        return repository.findAllByOrderByProductIdAsc();
     }
 
     @Transactional

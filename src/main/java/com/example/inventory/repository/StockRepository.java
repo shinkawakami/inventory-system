@@ -1,5 +1,7 @@
 package com.example.inventory.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
             Integer warehouseId,
             Integer stockId
     );
+
+    List<Stock> findAllByOrderByStockIdAsc();
 }
