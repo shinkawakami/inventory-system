@@ -23,8 +23,8 @@
         </tr>
         <tr th:each="h : ${histories}">
             <td th:text="${h.historyId}"></td>
-            <td th:text="${h.stock.product.productName}"></td>
-            <td th:text="${h.stock.warehouse.warehouseName}"></td>
+            <td th:text="${h.productName}"></td>
+            <td th:text="${h.warehouseName}"></td>
             <td th:text="${h.historyType}"></td>
             <td th:text="${h.quantity}"></td>
             <td th:text="${h.note}"></td>

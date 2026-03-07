@@ -22,8 +22,8 @@
         </tr>
         <tr th:each="s : ${stocks}">
             <td th:text="${s.stockId}"></td>
-            <td th:text="${s.product.productName}"></td>
-            <td th:text="${s.warehouse.warehouseName}"></td>
+            <td th:text="${s.productName}"></td>
+            <td th:text="${s.warehouseName}"></td>
             <td th:text="${s.quantity}"></td>
             <td th:text="${s.createdAt}"></td>
             <td>

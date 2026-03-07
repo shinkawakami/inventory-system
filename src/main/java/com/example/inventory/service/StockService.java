@@ -1,10 +1,12 @@
 package com.example.inventory.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.inventory.dto.StockListDto;
 import com.example.inventory.entity.Product;
 import com.example.inventory.entity.Stock;
 import com.example.inventory.entity.Warehouse;
@@ -84,5 +86,25 @@ public class StockService {
     @Transactional
     public void delete(Integer stockId) {
         stockRepository.deleteById(stockId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StockListDto> findAllForList() {
+        return stockRepository.findAllByOrderByStockIdAsc()
+                .stream()
+                .map(this::toStockListDto)
+                .collect(Collectors.toList());
+    }
+
+    private StockListDto toStockListDto(Stock stock) {
+        StockListDto dto = new StockListDto();
+        dto.setStockId(stock.getStockId());
+        dto.setProductId(stock.getProduct().getProductId());
+        dto.setProductName(stock.getProduct().getProductName());
+        dto.setWarehouseId(stock.getWarehouse().getWarehouseId());
+        dto.setWarehouseName(stock.getWarehouse().getWarehouseName());
+        dto.setQuantity(stock.getQuantity());
+        dto.setCreatedAt(stock.getCreatedAt());
+        return dto;
     }
 }

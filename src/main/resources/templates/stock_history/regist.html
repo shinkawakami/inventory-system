@@ -17,7 +17,7 @@
                 <option value="">-- 選択してください --</option>
                 <option th:each="s : ${stocks}"
                         th:value="${s.stockId}"
-                        th:text="${s.product.productName + ' / ' + s.warehouse.warehouseName + ' / 現在庫:' + s.quantity}">
+                        th:text="|${s.product.productName} / ${s.warehouse.warehouseName} / 現在庫:${s.quantity}|">
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('stockId')}" th:errors="*{stockId}"></div>

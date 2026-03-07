@@ -1,10 +1,12 @@
 package com.example.inventory.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.inventory.dto.StockHistoryListDto;
 import com.example.inventory.entity.Stock;
 import com.example.inventory.entity.StockHistory;
 import com.example.inventory.exception.BusinessException;
@@ -63,5 +65,26 @@ public class StockHistoryService {
 
         stockHistoryRepository.save(history);
         stockRepository.save(stock);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StockHistoryListDto> findAllForList() {
+        return stockHistoryRepository.findAllByOrderByCreatedAtDescHistoryIdDesc()
+                .stream()
+                .map(this::toStockHistoryListDto)
+                .collect(Collectors.toList());
+    }
+
+    private StockHistoryListDto toStockHistoryListDto(StockHistory history) {
+        StockHistoryListDto dto = new StockHistoryListDto();
+        dto.setHistoryId(history.getHistoryId());
+        dto.setStockId(history.getStock().getStockId());
+        dto.setProductName(history.getStock().getProduct().getProductName());
+        dto.setWarehouseName(history.getStock().getWarehouse().getWarehouseName());
+        dto.setHistoryType(history.getHistoryType());
+        dto.setQuantity(history.getQuantity());
+        dto.setNote(history.getNote());
+        dto.setCreatedAt(history.getCreatedAt());
+        return dto;
     }
 }
