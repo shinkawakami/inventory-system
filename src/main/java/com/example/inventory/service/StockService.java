@@ -41,7 +41,7 @@ public class StockService {
         Stock stock = new Stock();
         stock.setProduct(product);
         stock.setWarehouse(warehouse);
-        stock.setQuantity(form.getQuantity());
+        stock.setQuantity(0);
 
         stockRepository.save(stock);
     }
@@ -59,7 +59,6 @@ public class StockService {
 
         stock.setProduct(product);
         stock.setWarehouse(warehouse);
-        stock.setQuantity(form.getQuantity());
 
         stockRepository.save(stock);
     }

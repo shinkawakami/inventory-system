@@ -28,6 +28,7 @@
             <td th:text="${s.createdAt}"></td>
             <td>
                 <a th:href="@{/stock/edit/{id}(id=${s.stockId})}">編集</a>
+                <a th:href="@{/stock-history/regist}">入出庫</a>
 
                 <form th:action="@{/stock/delete}"
                       method="post"

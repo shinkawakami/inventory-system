@@ -71,7 +71,6 @@ public class StockController {
         form.setStockId(stock.getStockId());
         form.setProductId(stock.getProduct().getProductId());
         form.setWarehouseId(stock.getWarehouse().getWarehouseId());
-        form.setQuantity(stock.getQuantity());
 
         model.addAttribute("stockForm", form);
         model.addAttribute("products", productService.findAll());
