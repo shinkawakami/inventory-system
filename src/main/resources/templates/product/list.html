@@ -7,12 +7,17 @@
 <body>
   <h1>商品一覧</h1>
 
+  <div>
+    <a th:href="@{/product/regist}">商品登録</a>
+  </div>
+
   <table border="1">
     <tr>
       <th>ID</th>
       <th>商品名</th>
       <th>価格</th>
       <th>登録日時</th>
+      <th>操作</th>
     </tr>
 
     <tr th:each="p : ${products}">
@@ -20,11 +25,11 @@
       <td th:text="${p.productName}"></td>
       <td th:text="${p.price}"></td>
       <td th:text="${p.createdAt}"></td>
+      <td>
+        <a th:href="@{/product/edit/{id}(id=${p.productId})}">編集</a>
+      </td>
     </tr>
   </table>
 
-  <a th:href="@{/product/regist}">
-    商品登録
-  </a>
 </body>
 </html>

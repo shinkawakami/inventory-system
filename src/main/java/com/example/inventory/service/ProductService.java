@@ -26,10 +26,21 @@ public class ProductService {
     @Transactional
     public void save(ProductForm form) {
         Product product = new Product();
-
         product.setProductName(form.getProductName());
         product.setPrice(form.getPrice());
+        repository.save(product);
+    }
 
+    @Transactional(readOnly = true)
+    public Product findById(Integer productId) {
+        return repository.findById(productId).orElse(null);
+    }
+
+    @Transactional
+    public void update(ProductForm form) {
+        Product product = repository.findById(form.getProductId()).orElseThrow();
+        product.setProductName(form.getProductName());
+        product.setPrice(form.getPrice());
         repository.save(product);
     }
 }
