@@ -9,6 +9,7 @@ import com.example.inventory.entity.Product;
 import com.example.inventory.entity.Stock;
 import com.example.inventory.entity.Warehouse;
 import com.example.inventory.exception.BusinessException;
+import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.StockForm;
 import com.example.inventory.repository.ProductRepository;
 import com.example.inventory.repository.StockRepository;
@@ -41,8 +42,10 @@ public class StockService {
             throw new BusinessException("同じ商品・同じ倉庫の在庫が既に登録されています。");
         }
 
-        Product product = productRepository.findById(form.getProductId()).orElseThrow();
-        Warehouse warehouse = warehouseRepository.findById(form.getWarehouseId()).orElseThrow();
+        Product product = productRepository.findById(form.getProductId())
+            .orElseThrow(() -> new ResourceNotFoundException("商品が見つかりません。"));
+        Warehouse warehouse = warehouseRepository.findById(form.getWarehouseId())
+            .orElseThrow(() -> new ResourceNotFoundException("倉庫が見つかりません。"));
 
         Stock stock = new Stock();
         stock.setProduct(product);
@@ -54,7 +57,8 @@ public class StockService {
 
     @Transactional(readOnly = true)
     public Stock findById(Integer stockId) {
-        return stockRepository.findById(stockId).orElse(null);
+        return stockRepository.findById(stockId)
+            .orElseThrow(() -> new ResourceNotFoundException("在庫が見つかりません。"));
     }
 
     @Transactional
@@ -64,9 +68,12 @@ public class StockService {
             throw new BusinessException("同じ商品・同じ倉庫の在庫が既に登録されています。");
         }
 
-        Stock stock = stockRepository.findById(form.getStockId()).orElseThrow();
-        Product product = productRepository.findById(form.getProductId()).orElseThrow();
-        Warehouse warehouse = warehouseRepository.findById(form.getWarehouseId()).orElseThrow();
+        Stock stock = stockRepository.findById(form.getStockId())
+            .orElseThrow(() -> new ResourceNotFoundException("在庫が見つかりません。"));
+        Product product = productRepository.findById(form.getProductId())
+            .orElseThrow(() -> new ResourceNotFoundException("商品が見つかりません。"));
+        Warehouse warehouse = warehouseRepository.findById(form.getWarehouseId())
+            .orElseThrow(() -> new ResourceNotFoundException("倉庫が見つかりません。"));
 
         stock.setProduct(product);
         stock.setWarehouse(warehouse);

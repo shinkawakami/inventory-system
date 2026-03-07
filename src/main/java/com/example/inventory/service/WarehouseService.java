@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.inventory.entity.Warehouse;
+import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.WarehouseForm;
 import com.example.inventory.repository.WarehouseRepository;
 
@@ -29,5 +30,11 @@ public class WarehouseService {
         warehouse.setWarehouseName(form.getWarehouseName());
         warehouse.setLocation(form.getLocation());
         repository.save(warehouse);
+    }
+
+    @Transactional(readOnly = true)
+    public Warehouse findById(Integer warehouseId) {
+        return repository.findById(warehouseId)
+                .orElseThrow(() -> new ResourceNotFoundException("倉庫が見つかりません。"));
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.inventory.entity.Stock;
 import com.example.inventory.entity.StockHistory;
+import com.example.inventory.exception.BusinessException;
+import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.StockHistoryForm;
 import com.example.inventory.repository.StockHistoryRepository;
 import com.example.inventory.repository.StockRepository;
@@ -30,7 +32,8 @@ public class StockHistoryService {
 
     @Transactional
     public void save(StockHistoryForm form) {
-        Stock stock = stockRepository.findById(form.getStockId()).orElseThrow();
+        Stock stock = stockRepository.findById(form.getStockId())
+            .orElseThrow(() -> new ResourceNotFoundException("在庫が見つかりません。"));
 
         int currentQty = stock.getQuantity();
         int moveQty = form.getQuantity();
@@ -41,7 +44,7 @@ public class StockHistoryService {
                 break;
             case "OUT":
                 if (currentQty < moveQty) {
-                    throw new IllegalArgumentException("在庫数が不足しています。");
+                    throw new BusinessException("在庫数が不足しています。");
                 }
                 stock.setQuantity(currentQty - moveQty);
                 break;
@@ -49,7 +52,7 @@ public class StockHistoryService {
                 stock.setQuantity(moveQty);
                 break;
             default:
-                throw new IllegalArgumentException("不正な履歴種別です。");
+                throw new BusinessException("不正な履歴種別です。");
         }
 
         StockHistory history = new StockHistory();

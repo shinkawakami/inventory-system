@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.inventory.exception.BusinessException;
 import com.example.inventory.form.StockHistoryForm;
 import com.example.inventory.service.StockHistoryService;
 import com.example.inventory.service.StockService;
@@ -52,12 +53,12 @@ public class StockHistoryController {
 
         try {
             stockHistoryService.save(form);
-        } catch (IllegalArgumentException e) {
+        } catch (BusinessException e) {
             model.addAttribute("stocks", stockService.findAll());
             model.addAttribute("errorMessage", e.getMessage());
             return "stock_history/regist";
         }
-
+        
         return "redirect:/stock-history/list";
     }
 }
