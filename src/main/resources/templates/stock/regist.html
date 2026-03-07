@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>在庫登録</title>
+</head>
+<body>
+    <h1>在庫登録</h1>
+
+    <form th:action="@{/stock/regist}" th:object="${stockForm}" method="post">
+
+        <div>
+            <div>商品</div>
+            <select th:field="*{productId}">
+                <option value="">-- 選択してください --</option>
+                <option th:each="p : ${products}"
+                        th:value="${p.productId}"
+                        th:text="${p.productName}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('productId')}" th:errors="*{productId}"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <div>倉庫</div>
+            <select th:field="*{warehouseId}">
+                <option value="">-- 選択してください --</option>
+                <option th:each="w : ${warehouses}"
+                        th:value="${w.warehouseId}"
+                        th:text="${w.warehouseName}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <div>在庫数</div>
+            <input type="number" th:field="*{quantity}">
+            <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+        </div>
+
+        <br>
+
+        <button type="submit">登録</button>
+    </form>
+
+    <div>
+        <a th:href="@{/stock/list}">一覧へ戻る</a>
+    </div>
+</body>
+</html>

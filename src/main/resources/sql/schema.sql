@@ -23,3 +23,24 @@ VALUES
 ('東京倉庫', '東京都江東区'),
 ('大阪倉庫', '大阪府大阪市'),
 ('福岡倉庫', '福岡県福岡市');
+
+CREATE TABLE stock (
+    stock_id SERIAL PRIMARY KEY,
+    product_id INTEGER NOT NULL,
+    warehouse_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_stock_product
+        FOREIGN KEY (product_id) REFERENCES product(product_id),
+    CONSTRAINT fk_stock_warehouse
+        FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id),
+    CONSTRAINT uq_stock_product_warehouse
+        UNIQUE (product_id, warehouse_id)
+);
+
+INSERT INTO stock (product_id, warehouse_id, quantity)
+VALUES
+(1, 1, 10),
+(1, 2, 5),
+(2, 1, 30),
+(3, 3, 15);
