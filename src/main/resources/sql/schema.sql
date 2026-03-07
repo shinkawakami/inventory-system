@@ -55,3 +55,17 @@ CREATE TABLE stock_history (
     CONSTRAINT fk_stock_history_stock
         FOREIGN KEY (stock_id) REFERENCES stock(stock_id)
 );
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    login_id VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    user_name VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (login_id, password, user_name, role)
+VALUES
+('admin', 'admin123', '管理者ユーザー', 'ADMIN'),
+('staff', 'staff123', '在庫担当ユーザー', 'STAFF');
