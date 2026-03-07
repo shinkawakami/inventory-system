@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>データが見つかりません</title>
+</head>
+<body>
+    <h1>データが見つかりません</h1>
+
+    <p th:text="${errorMessage}">対象データが見つかりません。</p>
+
+    <div>
+        <a th:href="@{/product/list}">商品一覧へ</a>
+    </div>
+    <div>
+        <a th:href="@{/warehouse/list}">倉庫一覧へ</a>
+    </div>
+    <div>
+        <a th:href="@{/stock/list}">在庫一覧へ</a>
+    </div>
+</body>
+</html>

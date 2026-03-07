@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.inventory.entity.Product;
+import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.ProductForm;
 import com.example.inventory.repository.ProductRepository;
 
@@ -33,7 +34,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Product findById(Integer productId) {
-        return repository.findById(productId).orElse(null);
+        return repository.findById(productId)
+            .orElseThrow(() -> new ResourceNotFoundException("商品が見つかりません。"));
     }
 
     @Transactional
