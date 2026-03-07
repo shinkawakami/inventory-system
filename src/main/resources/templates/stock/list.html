@@ -7,7 +7,7 @@
 <body>
     <h1>在庫一覧</h1>
 
-    <div>
+    <div th:if="${session.loginUserRole.name() == 'ADMIN'}">
         <a th:href="@{/stock/regist}">在庫登録</a>
     </div>
 
@@ -27,10 +27,14 @@
             <td th:text="${s.quantity}"></td>
             <td th:text="${s.createdAt}"></td>
             <td>
-                <a th:href="@{/stock/edit/{id}(id=${s.stockId})}">編集</a>
+                <span th:if="${session.loginUserRole.name() == 'ADMIN'}">
+                    <a th:href="@{/stock/edit/{id}(id=${s.stockId})}">編集</a>
+                </span>
+
                 <a th:href="@{/stock-history/regist}">入出庫</a>
 
-                <form th:action="@{/stock/delete}"
+                <form th:if="${session.loginUserRole.name() == 'ADMIN'}"
+                      th:action="@{/stock/delete}"
                       method="post"
                       style="display:inline;"
                       onsubmit="return confirm('削除しますか？');">

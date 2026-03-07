@@ -39,7 +39,11 @@ public class RoleCheckFilter extends HttpFilter {
 
         boolean isWarehouseManage = requestURI.startsWith(contextPath + "/warehouse/regist");
 
-        if (Role.STAFF.equals(role) && (isProductManage || isWarehouseManage)) {
+        boolean isStockManage = requestURI.startsWith(contextPath + "/stock/regist")
+            || requestURI.startsWith(contextPath + "/stock/edit")
+            || requestURI.startsWith(contextPath + "/stock/delete");
+
+        if (Role.STAFF.equals(role) && (isProductManage || isWarehouseManage || isStockManage)) {
             response.sendRedirect(contextPath + "/menu");
             return;
         }

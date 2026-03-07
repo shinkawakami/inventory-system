@@ -7,7 +7,7 @@
 <body>
     <h1>倉庫一覧</h1>
 
-    <div>
+    <div th:if="${session.loginUserRole.name() == 'ADMIN'}">
         <a th:href="@{/warehouse/regist}">倉庫登録</a>
     </div>
 
