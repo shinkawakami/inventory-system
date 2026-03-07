@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>在庫一覧</title>
+</head>
+<body>
+    <h1>在庫一覧</h1>
+
+    <div>
+        <a th:href="@{/stock/regist}">在庫登録</a>
+    </div>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>商品名</th>
+            <th>倉庫名</th>
+            <th>在庫数</th>
+            <th>登録日時</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="s : ${stocks}">
+            <td th:text="${s.stockId}"></td>
+            <td th:text="${s.product.productName}"></td>
+            <td th:text="${s.warehouse.warehouseName}"></td>
+            <td th:text="${s.quantity}"></td>
+            <td th:text="${s.createdAt}"></td>
+            <td>
+                <a th:href="@{/stock/edit/{id}(id=${s.stockId})}">編集</a>
+
+                <form th:action="@{/stock/delete}"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('削除しますか？');">
+                    <input type="hidden" name="stockId" th:value="${s.stockId}">
+                    <button type="submit">削除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
