@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>倉庫一覧</title>
+</head>
+<body>
+    <h1>倉庫一覧</h1>
+
+    <div>
+        <a th:href="@{/warehouse/regist}">倉庫登録</a>
+    </div>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>倉庫名</th>
+            <th>所在地</th>
+            <th>登録日時</th>
+        </tr>
+        <tr th:each="w : ${warehouses}">
+            <td th:text="${w.warehouseId}"></td>
+            <td th:text="${w.warehouseName}"></td>
+            <td th:text="${w.location}"></td>
+            <td th:text="${w.createdAt}"></td>
+        </tr>
+    </table>
+</body>
+</html>

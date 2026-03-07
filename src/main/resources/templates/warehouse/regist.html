@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>倉庫登録</title>
+</head>
+<body>
+    <h1>倉庫登録</h1>
+
+    <form th:action="@{/warehouse/regist}" th:object="${warehouseForm}" method="post">
+        <div>
+            <div>倉庫名</div>
+            <input type="text" th:field="*{warehouseName}">
+            <div th:if="${#fields.hasErrors('warehouseName')}" th:errors="*{warehouseName}"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <div>所在地</div>
+            <input type="text" th:field="*{location}">
+            <div th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
+        </div>
+
+        <br>
+
+        <button type="submit">登録</button>
+    </form>
+
+    <div>
+        <a th:href="@{/warehouse/list}">一覧へ戻る</a>
+    </div>
+</body>
+</html>

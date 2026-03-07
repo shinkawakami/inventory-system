@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.inventory.entity.Product;
-
 import com.example.inventory.form.ProductForm;
 import com.example.inventory.service.ProductService;
 
