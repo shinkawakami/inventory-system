@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.inventory.entity.Stock;
+import com.example.inventory.exception.BusinessException;
 import com.example.inventory.form.StockForm;
 import com.example.inventory.service.ProductService;
 import com.example.inventory.service.StockService;
@@ -59,7 +60,15 @@ public class StockController {
             return "stock/regist";
         }
 
-        stockService.save(form);
+        try {
+            stockService.save(form);
+        } catch (BusinessException e) {
+            model.addAttribute("products", productService.findAll());
+            model.addAttribute("warehouses", warehouseService.findAll());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "stock/regist";
+        }
+
         return "redirect:/stock/list";
     }
 
@@ -90,7 +99,15 @@ public class StockController {
             return "stock/edit";
         }
 
-        stockService.update(form);
+        try {
+            stockService.update(form);
+        } catch (BusinessException e) {
+            model.addAttribute("products", productService.findAll());
+            model.addAttribute("warehouses", warehouseService.findAll());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "stock/edit";
+        }
+
         return "redirect:/stock/list";
     }
 

@@ -7,4 +7,12 @@ import com.example.inventory.entity.Stock;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Integer> {
+
+    boolean existsByProductProductIdAndWarehouseWarehouseId(Integer productId, Integer warehouseId);
+
+    boolean existsByProductProductIdAndWarehouseWarehouseIdAndStockIdNot(
+            Integer productId,
+            Integer warehouseId,
+            Integer stockId
+    );
 }
