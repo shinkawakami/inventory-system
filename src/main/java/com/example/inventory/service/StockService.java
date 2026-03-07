@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.inventory.entity.Product;
 import com.example.inventory.entity.Stock;
 import com.example.inventory.entity.Warehouse;
+import com.example.inventory.exception.BusinessException;
 import com.example.inventory.form.StockForm;
 import com.example.inventory.repository.ProductRepository;
 import com.example.inventory.repository.StockRepository;
@@ -35,6 +36,11 @@ public class StockService {
 
     @Transactional
     public void save(StockForm form) {
+        if (stockRepository.existsByProductProductIdAndWarehouseWarehouseId(
+                form.getProductId(), form.getWarehouseId())) {
+            throw new BusinessException("同じ商品・同じ倉庫の在庫が既に登録されています。");
+        }
+
         Product product = productRepository.findById(form.getProductId()).orElseThrow();
         Warehouse warehouse = warehouseRepository.findById(form.getWarehouseId()).orElseThrow();
 
@@ -53,6 +59,11 @@ public class StockService {
 
     @Transactional
     public void update(StockForm form) {
+        if (stockRepository.existsByProductProductIdAndWarehouseWarehouseIdAndStockIdNot(
+                form.getProductId(), form.getWarehouseId(), form.getStockId())) {
+            throw new BusinessException("同じ商品・同じ倉庫の在庫が既に登録されています。");
+        }
+
         Stock stock = stockRepository.findById(form.getStockId()).orElseThrow();
         Product product = productRepository.findById(form.getProductId()).orElseThrow();
         Warehouse warehouse = warehouseRepository.findById(form.getWarehouseId()).orElseThrow();
