@@ -37,14 +37,6 @@
 
         <br>
 
-        <div>
-            <div>在庫数</div>
-            <input type="number" th:field="*{quantity}">
-            <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
-        </div>
-
-        <br>
-
         <button type="submit">登録</button>
     </form>
 
