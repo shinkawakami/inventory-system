@@ -30,7 +30,7 @@ public class StockHistoryController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("histories", stockHistoryService.findAll());
+        model.addAttribute("histories", stockHistoryService.findAllForList());
         return "stock_history/list";
     }
 
