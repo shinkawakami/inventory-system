@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
+import com.example.inventory.constant.Role;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpFilter;
@@ -29,7 +31,7 @@ public class RoleCheckFilter extends HttpFilter {
             return;
         }
 
-        String role = (String) session.getAttribute("loginUserRole");
+        Role role = (Role) session.getAttribute("loginUserRole");
 
         boolean isProductManage = requestURI.startsWith(contextPath + "/product/regist")
                 || requestURI.startsWith(contextPath + "/product/edit")
@@ -37,7 +39,7 @@ public class RoleCheckFilter extends HttpFilter {
 
         boolean isWarehouseManage = requestURI.startsWith(contextPath + "/warehouse/regist");
 
-        if ("STAFF".equals(role) && (isProductManage || isWarehouseManage)) {
+        if (Role.STAFF.equals(role) && (isProductManage || isWarehouseManage)) {
             response.sendRedirect(contextPath + "/menu");
             return;
         }

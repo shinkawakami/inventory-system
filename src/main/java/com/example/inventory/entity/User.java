@@ -2,6 +2,8 @@ package com.example.inventory.entity;
 
 import java.time.LocalDateTime;
 
+import com.example.inventory.constant.Role;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -22,8 +24,9 @@ public class User {
     @Column(name = "user_name", nullable = false, length = 100)
     private String userName;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String role;
+    private Role role;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -60,11 +63,11 @@ public class User {
         this.userName = userName;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

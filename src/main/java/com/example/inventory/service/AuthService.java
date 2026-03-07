@@ -1,5 +1,6 @@
 package com.example.inventory.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,17 +12,20 @@ import com.example.inventory.repository.UserRepository;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
-    public User login(String loginId, String password) {
+    public User login(String loginId, String rawPassword) {
         User user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new BusinessException("ログインIDまたはパスワードが違います。"));
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new BusinessException("ログインIDまたはパスワードが違います。");
         }
 
