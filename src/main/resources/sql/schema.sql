@@ -44,3 +44,14 @@ VALUES
 (1, 2, 5),
 (2, 1, 30),
 (3, 3, 15);
+
+CREATE TABLE stock_history (
+    history_id SERIAL PRIMARY KEY,
+    stock_id INTEGER NOT NULL,
+    history_type VARCHAR(20) NOT NULL,
+    quantity INTEGER NOT NULL,
+    note VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_stock_history_stock
+        FOREIGN KEY (stock_id) REFERENCES stock(stock_id)
+);
