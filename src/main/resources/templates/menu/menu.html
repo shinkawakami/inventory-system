@@ -14,11 +14,21 @@
     </p>
 
     <ul>
-        <li><a th:href="@{/product/list}">商品一覧</a></li>
-        <li><a th:href="@{/warehouse/list}">倉庫一覧</a></li>
-        <li><a th:href="@{/stock/list}">在庫一覧</a></li>
-        <li><a th:href="@{/stock-history/list}">入出庫履歴一覧</a></li>
-        <li><a th:href="@{/login/logout}">ログアウト</a></li>
+        <li th:if="${session.loginUserRole.name() == 'ADMIN'}">
+            <a th:href="@{/product/list}">商品一覧</a>
+        </li>
+        <li th:if="${session.loginUserRole.name() == 'ADMIN'}">
+            <a th:href="@{/warehouse/list}">倉庫一覧</a>
+        </li>
+        <li>
+            <a th:href="@{/stock/list}">在庫一覧</a>
+        </li>
+        <li>
+            <a th:href="@{/stock-history/list}">入出庫履歴一覧</a>
+        </li>
+        <li>
+            <a th:href="@{/login/logout}">ログアウト</a>
+        </li>
     </ul>
 </body>
 </html>
