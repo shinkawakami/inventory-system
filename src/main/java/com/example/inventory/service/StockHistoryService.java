@@ -25,7 +25,7 @@ public class StockHistoryService {
 
     @Transactional(readOnly = true)
     public List<StockHistory> findAll() {
-        return stockHistoryRepository.findAll();
+        return stockHistoryRepository.findAllByOrderByCreatedAtDescHistoryIdDesc();
     }
 
     @Transactional

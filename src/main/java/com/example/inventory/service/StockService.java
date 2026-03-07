@@ -31,7 +31,7 @@ public class StockService {
 
     @Transactional(readOnly = true)
     public List<Stock> findAll() {
-        return stockRepository.findAll();
+        return stockRepository.findAllByOrderByStockIdAsc();
     }
 
     @Transactional

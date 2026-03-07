@@ -20,7 +20,7 @@ public class WarehouseService {
 
     @Transactional(readOnly = true)
     public List<Warehouse> findAll() {
-        return repository.findAll();
+        return repository.findAllByOrderByWarehouseIdAsc();
     }
 
     @Transactional
