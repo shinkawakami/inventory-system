@@ -8,8 +8,6 @@
     <th:block th:replace="~{common/fragments :: nav}"></th:block>
     <th:block th:replace="~{common/fragments :: message}"></th:block>
 
-    <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
-
     <form th:action="@{/stock-history/regist}" th:object="${stockHistoryForm}" method="post">
         <div>
             <div>対象在庫</div>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.inventory.exception.BusinessException;
 import com.example.inventory.form.StockHistoryForm;
@@ -43,8 +44,9 @@ public class StockHistoryController {
 
     @PostMapping("/regist")
     public String regist(@ModelAttribute("stockHistoryForm") @Valid StockHistoryForm form,
-                         BindingResult bindingResult,
-                         Model model) {
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("stocks", stockService.findAll());
@@ -58,7 +60,8 @@ public class StockHistoryController {
             model.addAttribute("errorMessage", e.getMessage());
             return "stock_history/regist";
         }
-        
+
+        redirectAttributes.addFlashAttribute("successMessage", "入出庫履歴を登録しました。");
         return "redirect:/stock-history/list";
     }
 }

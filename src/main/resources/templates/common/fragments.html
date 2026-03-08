@@ -25,7 +25,7 @@
     </div>
 
     <div th:fragment="nav">
-        <nav style="margin: 16px 0;">
+        <nav>
             <ul>
                 <li th:if="${session.loginUserRole != null and session.loginUserRole.name() == 'ADMIN'}">
                     <a th:href="@{/product/list}">商品一覧</a>
@@ -45,6 +45,10 @@
     </div>
 
     <div th:fragment="message">
+        <div th:if="${successMessage != null}" class="success">
+            <span th:text="${successMessage}">成功メッセージ</span>
+        </div>
+
         <div th:if="${errorMessage != null}" class="error">
             <span th:text="${errorMessage}">エラーメッセージ</span>
         </div>
