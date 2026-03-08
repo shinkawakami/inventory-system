@@ -34,4 +34,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
             String warehouseName,
             Pageable pageable
     );
+
+    List<Stock> findTop5ByQuantityLessThanEqualOrderByQuantityAscStockIdAsc(Integer quantity);
 }

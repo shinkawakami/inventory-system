@@ -10,4 +10,6 @@ import com.example.inventory.entity.StockHistory;
 @Repository
 public interface StockHistoryRepository extends JpaRepository<StockHistory, Integer> {
     List<StockHistory> findAllByOrderByCreatedAtDescHistoryIdDesc();
+
+    List<StockHistory> findTop5ByOrderByCreatedAtDescHistoryIdDesc();
 }

@@ -134,3 +134,35 @@ input, select {
     font-weight: bold;
     border-bottom: 2px solid #2f80ed;
 }
+
+.dashboard-cards {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.dashboard-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 16px;
+    min-width: 180px;
+}
+
+.dashboard-card__label {
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.dashboard-card__value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.dashboard-sections {
+    margin-top: 24px;
+}
+
+.dashboard-section {
+    margin-bottom: 32px;
+}

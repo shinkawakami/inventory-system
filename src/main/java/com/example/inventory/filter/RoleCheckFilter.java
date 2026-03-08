@@ -34,7 +34,7 @@ public class RoleCheckFilter extends HttpFilter {
         Role role = (Role) session.getAttribute("loginUserRole");
 
         if (Role.STAFF.equals(role) && AccessRule.isAdminOnlyPath(requestURI)) {
-            response.sendRedirect("/menu");
+            response.sendRedirect("/dashboard");
             return;
         }
 
