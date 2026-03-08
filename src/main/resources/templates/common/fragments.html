@@ -5,26 +5,20 @@
     <div th:fragment="head(title)">
         <meta charset="UTF-8">
         <title th:text="${title}">Inventory System</title>
+        <link rel="stylesheet" th:href="@{/css/base.css}">
     </div>
 
     <div th:fragment="header(pageTitle)">
-        <header style="margin-bottom: 20px;">
+        <header>
             <h1 th:text="${pageTitle}">ページタイトル</h1>
 
             <div th:if="${session.loginUserName != null}">
-                <span>ログイン中: </span>
+                <span>ログイン中:</span>
                 <span th:text="${session.loginUserName}">ユーザー名</span>
-                <span th:if="${session.loginUserRole != null}">
-                    (
-                    <span th:text="${session.loginUserRole}">ROLE</span>
-                    )
-                </span>
-                <span style="margin-left: 12px;">
-                    <a th:href="@{/menu}">メニュー</a>
-                </span>
-                <span style="margin-left: 8px;">
-                    <a th:href="@{/login/logout}">ログアウト</a>
-                </span>
+                <span th:if="${session.loginUserRole != null}" th:text="'(' + ${session.loginUserRole} + ')'">ROLE</span>
+
+                <span><a th:href="@{/menu}">メニュー</a></span>
+                <span><a th:href="@{/login/logout}">ログアウト</a></span>
             </div>
         </header>
         <hr>
@@ -51,7 +45,7 @@
     </div>
 
     <div th:fragment="message">
-        <div th:if="${errorMessage != null}" style="color: red; margin: 12px 0;">
+        <div th:if="${errorMessage != null}" class="error">
             <span th:text="${errorMessage}">エラーメッセージ</span>
         </div>
     </div>
