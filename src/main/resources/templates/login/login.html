@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>ログイン</title>
+    <th:block th:replace="~{common/fragments :: head('ログイン')}"></th:block>
 </head>
 <body>
-    <h1>ログイン</h1>
-
-    <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
+    <th:block th:replace="~{common/fragments :: header('ログイン')}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
     <form th:action="@{/login}" th:object="${loginForm}" method="post">
         <div>

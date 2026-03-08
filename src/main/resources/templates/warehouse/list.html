@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>倉庫一覧</title>
+    <th:block th:replace="~{common/fragments :: head('倉庫一覧')}"></th:block>
 </head>
 <body>
-    <h1>倉庫一覧</h1>
+    <th:block th:replace="~{common/fragments :: header('倉庫一覧')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
     <div th:if="${session.loginUserRole.name() == 'ADMIN'}">
         <a th:href="@{/warehouse/regist}">倉庫登録</a>

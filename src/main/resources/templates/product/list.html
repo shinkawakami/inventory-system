@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>商品一覧</title>
+    <th:block th:replace="~{common/fragments :: head('商品一覧')}"></th:block>
 </head>
 <body>
-  <h1>商品一覧</h1>
+    <th:block th:replace="~{common/fragments :: header('商品一覧')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
-  <div th:if="${session.loginUserRole.name() == 'ADMIN'}">
-    <a th:href="@{/product/regist}">商品登録</a>
-  </div>
+    <div th:if="${session.loginUserRole.name() == 'ADMIN'}">
+        <a th:href="@{/product/regist}">商品登録</a>
+    </div>
 
-  <table border="1">
-    <tr>
-      <th>ID</th>
-      <th>商品名</th>
-      <th>価格</th>
-      <th>登録日時</th>
-      <th th:if="${session.loginUserRole.name() == 'ADMIN'}">操作</th>
-    </tr>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>商品名</th>
+            <th>価格</th>
+            <th>登録日時</th>
+            <th th:if="${session.loginUserRole.name() == 'ADMIN'}">操作</th>
+        </tr>
 
-    <tr th:each="p : ${products}">
-      <td th:text="${p.productId}"></td>
-      <td th:text="${p.productName}"></td>
-      <td th:text="${p.price}"></td>
-      <td th:text="${p.createdAt}"></td>
+        <tr th:each="p : ${products}">
+            <td th:text="${p.productId}"></td>
+            <td th:text="${p.productName}"></td>
+            <td th:text="${p.price}"></td>
+            <td th:text="${p.createdAt}"></td>
 
-      <td th:if="${session.loginUserRole.name() == 'ADMIN'}">
-        <a th:href="@{/product/edit/{id}(id=${p.productId})}">編集</a>
+            <td th:if="${session.loginUserRole.name() == 'ADMIN'}">
+                <a th:href="@{/product/edit/{id}(id=${p.productId})}">編集</a>
 
-        <form th:action="@{/product/delete}"
-              method="post"
-              style="display:inline;"
-              onsubmit="return confirm('削除しますか？');">
-          <input type="hidden" name="productId" th:value="${p.productId}">
-          <button type="submit">削除</button>
-        </form>
-      </td>
-    </tr>
-  </table>
+                <form th:action="@{/product/delete}"
+                        method="post"
+                        style="display:inline;"
+                        onsubmit="return confirm('削除しますか？');">
+                    <input type="hidden" name="productId" th:value="${p.productId}">
+                    <button type="submit">削除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

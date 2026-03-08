@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>商品登録</title>
+    <th:block th:replace="~{common/fragments :: head('商品登録')}"></th:block>
 </head>
 <body>
+    <th:block th:replace="~{common/fragments :: header('商品登録')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
-<h1>商品登録</h1>
+    <form th:action="@{/product/regist}" th:object="${productForm}" method="post">
+        <div>
+            <div>商品名</div>
+            <input type="text" th:field="*{productName}">
+            <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
+        </div>
 
-<form th:action="@{/product/regist}" th:object="${productForm}" method="post">
+        <br>
 
-    <div>
-        <div>商品名</div>
-        <input type="text" th:field="*{productName}">
-        <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
-    </div>
+        <div>
+            <div>価格</div>
+            <input type="number" th:field="*{price}">
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
 
-    <br>
+        <br>
 
-    <div>
-        <div>価格</div>
-        <input type="number" th:field="*{price}">
-        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
-    </div>
-
-    <br>
-
-    <button type="submit">登録</button>
-
-</form>
-
+        <button type="submit">登録</button>
+    </form>
 </body>
 </html>
