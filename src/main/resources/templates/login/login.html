@@ -7,7 +7,7 @@
     <th:block th:replace="~{common/fragments :: header('ログイン')}"></th:block>
     <th:block th:replace="~{common/fragments :: message}"></th:block>
 
-    <form th:action="@{/login}" th:object="${loginForm}" method="post">
+    <form class="login-form" th:action="@{/login}" th:object="${loginForm}" method="post">
         <div>
             <div>ログインID</div>
             <input type="text" th:field="*{loginId}">
