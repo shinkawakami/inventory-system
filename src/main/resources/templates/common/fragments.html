@@ -17,7 +17,7 @@
                 <span th:text="${session.loginUserName}">ユーザー名</span>
                 <span th:if="${session.loginUserRole != null}" th:text="'(' + ${session.loginUserRole} + ')'">ROLE</span>
 
-                <span><a th:href="@{/menu}">メニュー</a></span>
+                <span><a th:href="@{/dashboard}">ダッシュボード</a></span>
                 <span><a th:href="@{/login/logout}">ログアウト</a></span>
             </div>
         </header>

@@ -49,7 +49,7 @@ public class LoginController {
             session.setAttribute("loginUserName", user.getUserName());
             session.setAttribute("loginUserRole", user.getRole());
 
-            return "redirect:/menu";
+            return "redirect:/dashboard";
         } catch (BusinessException e) {
             model.addAttribute("loginForm", form);
             model.addAttribute("errorMessage", e.getMessage());

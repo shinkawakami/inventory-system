@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{common/fragments :: head('ダッシュボード')}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{common/fragments :: header('ダッシュボード')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
+
+    <div class="dashboard-cards">
+        <div class="dashboard-card">
+            <div class="dashboard-card__label">商品数</div>
+            <div class="dashboard-card__value" th:text="${dashboard.productCount}">0</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="dashboard-card__label">倉庫数</div>
+            <div class="dashboard-card__value" th:text="${dashboard.warehouseCount}">0</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="dashboard-card__label">在庫件数</div>
+            <div class="dashboard-card__value" th:text="${dashboard.stockCount}">0</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="dashboard-card__label">入出庫履歴件数</div>
+            <div class="dashboard-card__value" th:text="${dashboard.stockHistoryCount}">0</div>
+        </div>
+    </div>
+
+    <div class="dashboard-sections">
+        <section class="dashboard-section">
+            <h2>在庫少なめ（5件以内）</h2>
+
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>商品名</th>
+                    <th>倉庫名</th>
+                    <th>在庫数</th>
+                </tr>
+                <tr th:if="${#lists.isEmpty(dashboard.lowStocks)}">
+                    <td colspan="4">該当データはありません。</td>
+                </tr>
+                <tr th:each="s : ${dashboard.lowStocks}">
+                    <td th:text="${s.stockId}"></td>
+                    <td th:text="${s.productName}"></td>
+                    <td th:text="${s.warehouseName}"></td>
+                    <td th:text="${s.quantity}"></td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>最近の入出庫履歴</h2>
+
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>商品名</th>
+                    <th>倉庫名</th>
+                    <th>種別</th>
+                    <th>数量</th>
+                    <th>日時</th>
+                </tr>
+                <tr th:if="${#lists.isEmpty(dashboard.recentHistories)}">
+                    <td colspan="6">該当データはありません。</td>
+                </tr>
+                <tr th:each="h : ${dashboard.recentHistories}">
+                    <td th:text="${h.historyId}"></td>
+                    <td th:text="${h.productName}"></td>
+                    <td th:text="${h.warehouseName}"></td>
+                    <td th:text="${h.historyType}"></td>
+                    <td th:text="${h.quantity}"></td>
+                    <td th:text="${h.createdAt}"></td>
+                </tr>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
