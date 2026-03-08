@@ -22,6 +22,11 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     List<Stock> findAllByOrderByStockIdAsc();
 
+    List<Stock> findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
+            String productName,
+            String warehouseName
+    );
+
     Page<Stock> findAllByOrderByStockIdAsc(Pageable pageable);
 
     Page<Stock> findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
