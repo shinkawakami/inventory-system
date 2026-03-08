@@ -8,6 +8,12 @@
     <th:block th:replace="~{common/fragments :: nav}"></th:block>
     <th:block th:replace="~{common/fragments :: message}"></th:block>
 
+    <div>
+        <a th:href="@{/stock/csv(productName=${searchForm.productName}, warehouseName=${searchForm.warehouseName})}">
+            CSV出力
+        </a>
+    </div>
+
     <div th:if="${session.loginUserRole.name() == 'ADMIN'}">
         <a th:href="@{/stock/regist}">在庫登録</a>
     </div>

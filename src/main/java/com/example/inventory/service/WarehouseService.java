@@ -56,4 +56,13 @@ public class WarehouseService {
                 pageable
         );
     }
+
+    @Transactional(readOnly = true)
+    public List<Warehouse> searchAll(WarehouseSearchForm form) {
+        if (form == null || !org.springframework.util.StringUtils.hasText(form.getWarehouseName())) {
+            return repository.findAllByOrderByWarehouseIdAsc();
+        }
+
+        return repository.findByWarehouseNameContainingOrderByWarehouseIdAsc(form.getWarehouseName().trim());
+    }
 }

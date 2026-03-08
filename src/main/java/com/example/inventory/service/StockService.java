@@ -143,4 +143,26 @@ public class StockService {
                 stockPage.getTotalElements()
         );
     }
+
+    @Transactional(readOnly = true)
+    public List<StockListDto> searchAllForList(StockSearchForm form) {
+        String productName = "";
+        String warehouseName = "";
+
+        if (form != null) {
+            if (org.springframework.util.StringUtils.hasText(form.getProductName())) {
+                productName = form.getProductName().trim();
+            }
+            if (org.springframework.util.StringUtils.hasText(form.getWarehouseName())) {
+                warehouseName = form.getWarehouseName().trim();
+            }
+        }
+
+        return stockRepository
+                .findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
+                        productName, warehouseName)
+                .stream()
+                .map(this::toStockListDto)
+                .toList();
+    }
 }

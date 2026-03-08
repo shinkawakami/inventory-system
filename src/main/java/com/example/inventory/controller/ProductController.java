@@ -1,6 +1,14 @@
 package com.example.inventory.controller;
 
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.inventory.entity.Product;
 import com.example.inventory.form.ProductForm;
 import com.example.inventory.form.ProductSearchForm;
+import com.example.inventory.service.CsvExportService;
 import com.example.inventory.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -23,9 +32,11 @@ import jakarta.validation.Valid;
 public class ProductController {
 
     private final ProductService service;
+    private final CsvExportService csvExportService;
 
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service, CsvExportService csvExportService) {
         this.service = service;
+        this.csvExportService = csvExportService;
     }
 
     @GetMapping("/list")
@@ -87,5 +98,30 @@ public class ProductController {
     public String delete(@RequestParam("productId") Integer productId) {
         service.delete(productId);
         return "redirect:/product/list";
+    }
+
+    @GetMapping("/csv")
+    public ResponseEntity<byte[]> exportCsv(@ModelAttribute ProductSearchForm form) {
+        List<Product> products = service.searchAll(form);
+
+        String[] headers = {"ID", "商品名", "価格", "登録日時"};
+        List<String[]> rows = products.stream()
+                .map(p -> new String[]{
+                        String.valueOf(p.getProductId()),
+                        p.getProductName(),
+                        String.valueOf(p.getPrice()),
+                        p.getCreatedAt() != null ? p.getCreatedAt().toString() : ""
+                })
+                .toList();
+
+        byte[] csv = csvExportService.export(headers, rows);
+
+        String filename = "products_" + LocalDate.now() + ".csv";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment().filename(filename, StandardCharsets.UTF_8).build().toString())
+                .contentType(new MediaType("text", "csv"))
+                .body(csv);
     }
 }

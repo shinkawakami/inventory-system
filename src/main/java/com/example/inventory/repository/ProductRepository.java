@@ -13,6 +13,8 @@ import com.example.inventory.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByOrderByProductIdAsc();
 
+    List<Product> findByProductNameContainingOrderByProductIdAsc(String productName);
+
     Page<Product> findAllByOrderByProductIdAsc(Pageable pageable);
 
     Page<Product> findByProductNameContainingOrderByProductIdAsc(String productName, Pageable pageable);

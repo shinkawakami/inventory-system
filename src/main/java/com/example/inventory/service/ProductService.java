@@ -69,4 +69,13 @@ public class ProductService {
                 pageable
         );
     }
+
+    @Transactional(readOnly = true)
+    public List<Product> searchAll(ProductSearchForm form) {
+        if (form == null || !org.springframework.util.StringUtils.hasText(form.getProductName())) {
+            return repository.findAllByOrderByProductIdAsc();
+        }
+
+        return repository.findByProductNameContainingOrderByProductIdAsc(form.getProductName().trim());
+    }
 }

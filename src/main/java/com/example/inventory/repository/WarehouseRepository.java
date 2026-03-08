@@ -13,6 +13,8 @@ import com.example.inventory.entity.Warehouse;
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     List<Warehouse> findAllByOrderByWarehouseIdAsc();
 
+    List<Warehouse> findByWarehouseNameContainingOrderByWarehouseIdAsc(String warehouseName);
+
     Page<Warehouse> findAllByOrderByWarehouseIdAsc(Pageable pageable);
 
     Page<Warehouse> findByWarehouseNameContainingOrderByWarehouseIdAsc(String warehouseName, Pageable pageable);
