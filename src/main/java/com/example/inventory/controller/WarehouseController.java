@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.inventory.entity.Warehouse;
 import com.example.inventory.form.WarehouseForm;
@@ -62,12 +63,14 @@ public class WarehouseController {
 
     @PostMapping("/regist")
     public String regist(@ModelAttribute("warehouseForm") @Valid WarehouseForm form,
-                         BindingResult bindingResult) {
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "warehouse/regist";
         }
 
         service.save(form);
+        redirectAttributes.addFlashAttribute("successMessage", "倉庫を登録しました。");
         return "redirect:/warehouse/list";
     }
 

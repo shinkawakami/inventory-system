@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.inventory.entity.Product;
 import com.example.inventory.form.ProductForm;
@@ -63,11 +64,15 @@ public class ProductController {
 
     @PostMapping("/regist")
     public String regist(@ModelAttribute("productForm") @Valid ProductForm form,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
             return "product/regist";
         }
+
         service.save(form);
+        redirectAttributes.addFlashAttribute("successMessage", "商品を登録しました。");
         return "redirect:/product/list";
     }
 
@@ -86,17 +91,23 @@ public class ProductController {
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute("productForm") @Valid ProductForm form,
-                    BindingResult bindingResult) {
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
             return "product/edit";
         }
+
         service.update(form);
+        redirectAttributes.addFlashAttribute("successMessage", "商品を更新しました。");
         return "redirect:/product/list";
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("productId") Integer productId) {
+    public String delete(@RequestParam("productId") Integer productId,
+            RedirectAttributes redirectAttributes) {
         service.delete(productId);
+        redirectAttributes.addFlashAttribute("successMessage", "商品を削除しました。");
         return "redirect:/product/list";
     }
 

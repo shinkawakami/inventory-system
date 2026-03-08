@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.inventory.dto.StockListDto;
 import com.example.inventory.entity.Stock;
@@ -76,8 +77,9 @@ public class StockController {
 
     @PostMapping("/regist")
     public String regist(@ModelAttribute("stockForm") @Valid StockForm form,
-                         BindingResult bindingResult,
-                         Model model) {
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("products", productService.findAll());
@@ -94,6 +96,7 @@ public class StockController {
             return "stock/regist";
         }
 
+        redirectAttributes.addFlashAttribute("successMessage", "在庫を登録しました。");
         return "redirect:/stock/list";
     }
 
@@ -115,8 +118,9 @@ public class StockController {
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute("stockForm") @Valid StockForm form,
-                       BindingResult bindingResult,
-                       Model model) {
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("products", productService.findAll());
@@ -133,12 +137,15 @@ public class StockController {
             return "stock/edit";
         }
 
+        redirectAttributes.addFlashAttribute("successMessage", "在庫を更新しました。");
         return "redirect:/stock/list";
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("stockId") Integer stockId) {
+    public String delete(@RequestParam("stockId") Integer stockId,
+            RedirectAttributes redirectAttributes) {
         stockService.delete(stockId);
+        redirectAttributes.addFlashAttribute("successMessage", "在庫を削除しました。");
         return "redirect:/stock/list";
     }
 
