@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>商品編集</title>
+    <th:block th:replace="~{common/fragments :: head('商品編集')}"></th:block>
 </head>
 <body>
+    <th:block th:replace="~{common/fragments :: header('商品編集')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
-<h1>商品編集</h1>
+    <form th:action="@{/product/edit}" th:object="${productForm}" method="post">
+        <input type="hidden" th:field="*{productId}">
 
-<form th:action="@{/product/edit}" th:object="${productForm}" method="post">
+        <div>
+            <div>商品名</div>
+            <input type="text" th:field="*{productName}">
+            <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
+        </div>
 
-    <input type="hidden" th:field="*{productId}">
+        <br>
+
+        <div>
+            <div>価格</div>
+            <input type="number" th:field="*{price}">
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
+
+        <br>
+
+        <button type="submit">更新</button>
+    </form>
 
     <div>
-        <div>商品名</div>
-        <input type="text" th:field="*{productName}">
-        <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
+        <a th:href="@{/product/list}">一覧へ戻る</a>
     </div>
-
-    <br>
-
-    <div>
-        <div>価格</div>
-        <input type="number" th:field="*{price}">
-        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
-    </div>
-
-    <br>
-
-    <button type="submit">更新</button>
-
-</form>
-
-<div>
-    <a th:href="@{/product/list}">一覧へ戻る</a>
-</div>
-
 </body>
 </html>

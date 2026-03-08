@@ -1,34 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>メニュー</title>
+    <th:block th:replace="~{common/fragments :: head('メニュー')}"></th:block>
 </head>
 <body>
-    <h1>メニュー</h1>
+    <th:block th:replace="~{common/fragments :: header('メニュー')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
 
     <p>
         ようこそ、
         <span th:text="${session.loginUserName}">ユーザー</span>
         さん
     </p>
-
-    <ul>
-        <li th:if="${session.loginUserRole.name() == 'ADMIN'}">
-            <a th:href="@{/product/list}">商品一覧</a>
-        </li>
-        <li th:if="${session.loginUserRole.name() == 'ADMIN'}">
-            <a th:href="@{/warehouse/list}">倉庫一覧</a>
-        </li>
-        <li>
-            <a th:href="@{/stock/list}">在庫一覧</a>
-        </li>
-        <li>
-            <a th:href="@{/stock-history/list}">入出庫履歴一覧</a>
-        </li>
-        <li>
-            <a th:href="@{/login/logout}">ログアウト</a>
-        </li>
-    </ul>
 </body>
 </html>

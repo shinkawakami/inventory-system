@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="head(title)">
+        <meta charset="UTF-8">
+        <title th:text="${title}">Inventory System</title>
+    </div>
+
+    <div th:fragment="header(pageTitle)">
+        <header style="margin-bottom: 20px;">
+            <h1 th:text="${pageTitle}">ページタイトル</h1>
+
+            <div th:if="${session.loginUserName != null}">
+                <span>ログイン中: </span>
+                <span th:text="${session.loginUserName}">ユーザー名</span>
+                <span th:if="${session.loginUserRole != null}">
+                    (
+                    <span th:text="${session.loginUserRole}">ROLE</span>
+                    )
+                </span>
+                <span style="margin-left: 12px;">
+                    <a th:href="@{/menu}">メニュー</a>
+                </span>
+                <span style="margin-left: 8px;">
+                    <a th:href="@{/login/logout}">ログアウト</a>
+                </span>
+            </div>
+        </header>
+        <hr>
+    </div>
+
+    <div th:fragment="nav">
+        <nav style="margin: 16px 0;">
+            <ul>
+                <li th:if="${session.loginUserRole != null and session.loginUserRole.name() == 'ADMIN'}">
+                    <a th:href="@{/product/list}">商品一覧</a>
+                </li>
+                <li th:if="${session.loginUserRole != null and session.loginUserRole.name() == 'ADMIN'}">
+                    <a th:href="@{/warehouse/list}">倉庫一覧</a>
+                </li>
+                <li>
+                    <a th:href="@{/stock/list}">在庫一覧</a>
+                </li>
+                <li>
+                    <a th:href="@{/stock-history/list}">入出庫履歴一覧</a>
+                </li>
+            </ul>
+        </nav>
+        <hr>
+    </div>
+
+    <div th:fragment="message">
+        <div th:if="${errorMessage != null}" style="color: red; margin: 12px 0;">
+            <span th:text="${errorMessage}">エラーメッセージ</span>
+        </div>
+    </div>
+
+</body>
+</html>

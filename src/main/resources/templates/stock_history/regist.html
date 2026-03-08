@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>入出庫登録</title>
+    <th:block th:replace="~{common/fragments :: head('入出庫登録')}"></th:block>
 </head>
 <body>
-    <h1>入出庫登録</h1>
+    <th:block th:replace="~{common/fragments :: header('入出庫登録')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
     <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
     <form th:action="@{/stock-history/regist}" th:object="${stockHistoryForm}" method="post">
-
         <div>
             <div>対象在庫</div>
             <select th:field="*{stockId}">

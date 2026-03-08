@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>入出庫履歴一覧</title>
+    <th:block th:replace="~{common/fragments :: head('入出庫履歴一覧')}"></th:block>
 </head>
 <body>
-    <h1>入出庫履歴一覧</h1>
+    <th:block th:replace="~{common/fragments :: header('入出庫履歴一覧')}"></th:block>
+    <th:block th:replace="~{common/fragments :: nav}"></th:block>
+    <th:block th:replace="~{common/fragments :: message}"></th:block>
 
     <div>
         <a th:href="@{/stock-history/regist}">入出庫登録</a>
