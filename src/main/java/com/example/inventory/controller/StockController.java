@@ -1,5 +1,6 @@
 package com.example.inventory.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.inventory.dto.StockListDto;
 import com.example.inventory.entity.Stock;
 import com.example.inventory.exception.BusinessException;
 import com.example.inventory.form.StockForm;
@@ -37,8 +39,18 @@ public class StockController {
     }
 
     @GetMapping("/list")
-    public String list(@ModelAttribute("searchForm") StockSearchForm form, Model model) {
-        model.addAttribute("stocks", stockService.searchForList(form));
+    public String list(@ModelAttribute("searchForm") StockSearchForm form,
+                    @RequestParam(name = "page", defaultValue = "0") int page,
+                    @RequestParam(name = "size", defaultValue = "10") int size,
+                    Model model) {
+
+        Page<StockListDto> stockPage = stockService.searchForList(form, page, size);
+
+        model.addAttribute("stocks", stockPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", stockPage.getTotalPages());
+        model.addAttribute("size", size);
+
         return "stock/list";
     }
 

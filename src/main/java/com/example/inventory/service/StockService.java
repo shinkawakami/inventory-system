@@ -3,6 +3,10 @@ package com.example.inventory.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -111,7 +115,9 @@ public class StockService {
     }
 
     @Transactional(readOnly = true)
-    public List<StockListDto> searchForList(StockSearchForm form) {
+    public Page<StockListDto> searchForList(StockSearchForm form, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
         String productName = "";
         String warehouseName = "";
 
@@ -124,11 +130,17 @@ public class StockService {
             }
         }
 
-        return stockRepository
-                .findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
-                        productName, warehouseName)
-                .stream()
-                .map(this::toStockListDto)
-                .toList();
+        Page<Stock> stockPage =
+                stockRepository.findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
+                        productName,
+                        warehouseName,
+                        pageable
+                );
+
+        return new PageImpl<>(
+                stockPage.getContent().stream().map(this::toStockListDto).toList(),
+                pageable,
+                stockPage.getTotalElements()
+        );
     }
 }

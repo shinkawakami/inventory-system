@@ -112,3 +112,19 @@ input, select {
 .search-form input {
     margin-right: 12px;
 }
+
+.pagination {
+    margin-top: 16px;
+}
+
+.pagination a,
+.pagination span {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 4px 8px;
+}
+
+.pagination .current {
+    font-weight: bold;
+    border-bottom: 2px solid #2f80ed;
+}

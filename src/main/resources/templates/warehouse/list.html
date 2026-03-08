@@ -35,5 +35,29 @@
             <td th:text="${w.createdAt}"></td>
         </tr>
     </table>
+
+    <div class="pagination" th:if="${totalPages > 0}">
+        <span th:text="'全 ' + ${totalPages} + ' ページ'"></span>
+
+        <div>
+            <a th:if="${currentPage > 0}"
+                    th:href="@{/warehouse/list(page=${currentPage - 1}, size=${size}, warehouseName=${searchForm.warehouseName})}">
+                前へ
+            </a>
+
+            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:if="${i != currentPage}"
+                    th:href="@{/warehouse/list(page=${i}, size=${size}, warehouseName=${searchForm.warehouseName})}"
+                    th:text="${i + 1}"></a>
+
+                <span class="current" th:if="${i == currentPage}" th:text="${i + 1}"></span>
+            </span>
+
+            <a th:if="${currentPage + 1 < totalPages}"
+                    th:href="@{/warehouse/list(page=${currentPage + 1}, size=${size}, warehouseName=${searchForm.warehouseName})}">
+                次へ
+            </a>
+        </div>
+    </div>
 </body>
 </html>
