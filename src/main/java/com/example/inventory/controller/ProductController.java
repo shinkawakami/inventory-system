@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.inventory.entity.Product;
 import com.example.inventory.form.ProductForm;
+import com.example.inventory.form.ProductSearchForm;
 import com.example.inventory.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -27,8 +28,8 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("products", service.findAll());
+    public String list(@ModelAttribute("searchForm") ProductSearchForm form, Model model) {
+        model.addAttribute("products", service.search(form));
         return "product/list";
     }
 

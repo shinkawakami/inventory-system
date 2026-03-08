@@ -10,4 +10,6 @@ import com.example.inventory.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByOrderByProductIdAsc();
+
+    List<Product> findByProductNameContainingOrderByProductIdAsc(String productName);
 }

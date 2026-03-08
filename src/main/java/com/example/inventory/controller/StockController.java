@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.inventory.entity.Stock;
 import com.example.inventory.exception.BusinessException;
 import com.example.inventory.form.StockForm;
+import com.example.inventory.form.StockSearchForm;
 import com.example.inventory.service.ProductService;
 import com.example.inventory.service.StockService;
 import com.example.inventory.service.WarehouseService;
@@ -36,8 +37,8 @@ public class StockController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("stocks", stockService.findAllForList());
+    public String list(@ModelAttribute("searchForm") StockSearchForm form, Model model) {
+        model.addAttribute("stocks", stockService.searchForList(form));
         return "stock/list";
     }
 
