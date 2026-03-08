@@ -12,6 +12,19 @@
         <a th:href="@{/stock/regist}">在庫登録</a>
     </div>
 
+    <form class="search-form" th:action="@{/stock/list}" th:object="${searchForm}" method="get">
+        <div>
+            <span>商品名</span>
+            <input type="text" th:field="*{productName}">
+
+            <span>倉庫名</span>
+            <input type="text" th:field="*{warehouseName}">
+
+            <button type="submit">検索</button>
+            <a th:href="@{/stock/list}">クリア</a>
+        </div>
+    </form>
+
     <table>
         <tr>
             <th>ID</th>

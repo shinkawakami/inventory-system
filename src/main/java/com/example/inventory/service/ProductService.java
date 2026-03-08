@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.example.inventory.entity.Product;
 import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.ProductForm;
+import com.example.inventory.form.ProductSearchForm;
 import com.example.inventory.repository.ProductRepository;
 
 @Service
@@ -49,5 +51,14 @@ public class ProductService {
     @Transactional
     public void delete(Integer productId) {
         repository.deleteById(productId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> search(ProductSearchForm form) {
+        if (form == null || !StringUtils.hasText(form.getProductName())) {
+            return repository.findAllByOrderByProductIdAsc();
+        }
+
+        return repository.findByProductNameContainingOrderByProductIdAsc(form.getProductName().trim());
     }
 }

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.example.inventory.dto.StockListDto;
 import com.example.inventory.entity.Product;
@@ -13,6 +14,7 @@ import com.example.inventory.entity.Warehouse;
 import com.example.inventory.exception.BusinessException;
 import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.StockForm;
+import com.example.inventory.form.StockSearchForm;
 import com.example.inventory.repository.ProductRepository;
 import com.example.inventory.repository.StockRepository;
 import com.example.inventory.repository.WarehouseRepository;
@@ -88,13 +90,13 @@ public class StockService {
         stockRepository.deleteById(stockId);
     }
 
-    @Transactional(readOnly = true)
-    public List<StockListDto> findAllForList() {
-        return stockRepository.findAllByOrderByStockIdAsc()
-                .stream()
-                .map(this::toStockListDto)
-                .collect(Collectors.toList());
-    }
+    // @Transactional(readOnly = true)
+    // public List<StockListDto> findAllForList() {
+    //     return stockRepository.findAllByOrderByStockIdAsc()
+    //             .stream()
+    //             .map(this::toStockListDto)
+    //             .collect(Collectors.toList());
+    // }
 
     private StockListDto toStockListDto(Stock stock) {
         StockListDto dto = new StockListDto();
@@ -106,5 +108,27 @@ public class StockService {
         dto.setQuantity(stock.getQuantity());
         dto.setCreatedAt(stock.getCreatedAt());
         return dto;
+    }
+
+    @Transactional(readOnly = true)
+    public List<StockListDto> searchForList(StockSearchForm form) {
+        String productName = "";
+        String warehouseName = "";
+
+        if (form != null) {
+            if (StringUtils.hasText(form.getProductName())) {
+                productName = form.getProductName().trim();
+            }
+            if (StringUtils.hasText(form.getWarehouseName())) {
+                warehouseName = form.getWarehouseName().trim();
+            }
+        }
+
+        return stockRepository
+                .findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
+                        productName, warehouseName)
+                .stream()
+                .map(this::toStockListDto)
+                .toList();
     }
 }

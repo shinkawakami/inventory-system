@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.example.inventory.entity.Warehouse;
 import com.example.inventory.exception.ResourceNotFoundException;
 import com.example.inventory.form.WarehouseForm;
+import com.example.inventory.form.WarehouseSearchForm;
 import com.example.inventory.repository.WarehouseRepository;
 
 @Service
@@ -36,5 +38,14 @@ public class WarehouseService {
     public Warehouse findById(Integer warehouseId) {
         return repository.findById(warehouseId)
                 .orElseThrow(() -> new ResourceNotFoundException("倉庫が見つかりません。"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Warehouse> search(WarehouseSearchForm form) {
+        if (form == null || !StringUtils.hasText(form.getWarehouseName())) {
+            return repository.findAllByOrderByWarehouseIdAsc();
+        }
+
+        return repository.findByWarehouseNameContainingOrderByWarehouseIdAsc(form.getWarehouseName().trim());
     }
 }

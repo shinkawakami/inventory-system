@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.inventory.form.WarehouseForm;
+import com.example.inventory.form.WarehouseSearchForm;
 import com.example.inventory.service.WarehouseService;
 
 import jakarta.validation.Valid;
@@ -24,8 +25,8 @@ public class WarehouseController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("warehouses", service.findAll());
+    public String list(@ModelAttribute("searchForm") WarehouseSearchForm form, Model model) {
+        model.addAttribute("warehouses", service.search(form));
         return "warehouse/list";
     }
 
