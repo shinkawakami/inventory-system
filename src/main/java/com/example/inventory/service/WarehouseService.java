@@ -2,6 +2,9 @@ package com.example.inventory.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -41,11 +44,16 @@ public class WarehouseService {
     }
 
     @Transactional(readOnly = true)
-    public List<Warehouse> search(WarehouseSearchForm form) {
+    public Page<Warehouse> search(WarehouseSearchForm form, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
         if (form == null || !StringUtils.hasText(form.getWarehouseName())) {
-            return repository.findAllByOrderByWarehouseIdAsc();
+            return repository.findAllByOrderByWarehouseIdAsc(pageable);
         }
 
-        return repository.findByWarehouseNameContainingOrderByWarehouseIdAsc(form.getWarehouseName().trim());
+        return repository.findByWarehouseNameContainingOrderByWarehouseIdAsc(
+                form.getWarehouseName().trim(),
+                pageable
+        );
     }
 }

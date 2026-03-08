@@ -1,5 +1,6 @@
 package com.example.inventory.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,8 +29,18 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String list(@ModelAttribute("searchForm") ProductSearchForm form, Model model) {
-        model.addAttribute("products", service.search(form));
+    public String list(@ModelAttribute("searchForm") ProductSearchForm form,
+                    @RequestParam(name = "page", defaultValue = "0") int page,
+                    @RequestParam(name = "size", defaultValue = "10") int size,
+                    Model model) {
+
+        Page<Product> productPage = service.search(form, page, size);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("size", size);
+
         return "product/list";
     }
 

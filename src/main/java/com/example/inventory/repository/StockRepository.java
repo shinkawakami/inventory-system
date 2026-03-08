@@ -2,6 +2,8 @@ package com.example.inventory.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +22,11 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     List<Stock> findAllByOrderByStockIdAsc();
 
-    List<Stock> findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
+    Page<Stock> findAllByOrderByStockIdAsc(Pageable pageable);
+
+    Page<Stock> findByProductProductNameContainingAndWarehouseWarehouseNameContainingOrderByStockIdAsc(
             String productName,
-            String warehouseName
+            String warehouseName,
+            Pageable pageable
     );
 }
